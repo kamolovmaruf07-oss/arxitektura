@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARXA Studio — Arxitektura Portfolyo</title>
+  <meta name="description" content="ARXA Studio — zamonaviy arxitektura, interyer dizayni va 3D vizualizatsiya. Och ko'k va to'q ko'k uslubidagi Soft UI portfolyo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23123a78'/%3E%3Cpath d='M30 70 50 32 70 70h-12L50 52 42 70z' fill='%23eaf2fc'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <header class="nav-wrap" id="top">
+    <nav class="nav soft-pill" id="navbar">
+      <a href="#top" class="logo">
+        <span class="logo-mark soft-pill-dark">A</span>
+        <span class="logo-text">ARXA<em>Studio</em></span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#top" class="nav-link active">Bosh sahifa</a></li>
+        <li><a href="#services" class="nav-link">Xizmatlar</a></li>
+        <li><a href="#about" class="nav-link">Biz haqida</a></li>
+        <li><a href="#projects" class="nav-link">Loyihalar</a></li>
+        <li><a href="#reviews" class="nav-link">Fikrlar</a></li>
+        <li><a href="#contact" class="nav-link">Aloqa</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-sm nav-cta">Loyiha bilan bog'lanish</a>
+        <button class="burger soft-pill" id="burger" aria-label="Menyu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobil menyu -->
+    <div class="mobile-menu soft-pill" id="mobileMenu">
+      <a href="#top" class="mobile-link">Bosh sahifa</a>
+      <a href="#services" class="mobile-link">Xizmatlar</a>
+      <a href="#about" class="mobile-link">Biz haqida</a>
+      <a href="#projects" class="mobile-link">Loyihalar</a>
+      <a href="#reviews" class="mobile-link">Fikrlar</a>
+      <a href="#contact" class="mobile-link">Aloqa</a>
+      <a href="#contact" class="btn btn-primary btn-sm" style="width:100%">Loyiha bilan bog'lanish</a>
+    </div>
+  </header>
+
+  <!-- ======= HERO ======= -->
+  <section class="hero" id="home">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+
+    <div class="container hero-grid">
+      <div class="hero-text reveal">
+        <span class="badge soft-pill">
+          <span class="badge-dot"></span> Arxitektura &amp; Interyer Studiyasi
+        </span>
+        <h1>
+          Makonni <span class="grad">san'atka</span><br />
+          aylantiramiz
+        </h1>
+        <p class="lead">
+          Biz zamonaviy binolar, uylar va interyerlar yaratamiz. Har bir loyihada
+          an'anaviy o'zbek me'morchiligi va zamonaviy minimalizm uyg'unligini
+          izlaymiz — to'q ko'k chuqurlik va och ko'k yorug'lik ruhida.
+        </p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn btn-primary">
+            Loyihalarni ko'rish
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#about" class="btn btn-soft">Biz haqida</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-chip soft-pill">
+            <span class="stat-num" data-target="240">0</span><span class="stat-plus">+</span>
+            <span class="stat-label">Loyihalar</span>
+          </div>
+          <div class="stat-chip soft-pill">
+            <span class="stat-num" data-target="15">0</span>
+            <span class="stat-label">Yillik tajriba</span>
+          </div>
+          <div class="stat-chip soft-pill">
+            <span class="stat-num" data-target="12">0</span>
+            <span class="stat-label">Mukofotlar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" style="transition-delay:.15s">
+        <div class="hero-card soft-pill">
+          <img src="images/hero.jpg" alt="Zamonaviy arxitektura — ARXA Studio" />
+        </div>
+        <div class="float-card soft-pill float-a">
+          <span class="float-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+          </span>
+          <div><strong>98%</strong><small>Qoniqarli mijozlar</small></div>
+        </div>
+        <div class="float-card soft-pill float-b">
+          <span class="float-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20M2 12h20"/></svg>
+          </span>
+          <div><strong>6 shahar</strong><small>Uz va xalqaro</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= XIZMATLAR ======= -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="tag soft-pill">Xizmatlar</span>
+        <h2>Biz nimani <span class="grad">qilamiz</span></h2>
+        <p>G'oyadan tayyor binogacha — to'liq arxitektura xizmatlari</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card soft-pill reveal">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>
+          </div>
+          <h3>Arxitektura loyihalari</h3>
+          <p>Uylar, ofislar va tijorat binolari uchun to'liq me'moriy loyihalar — eskizdan ishchi hujjatlarigacha.</p>
+        </article>
+
+        <article class="card soft-pill reveal" style="transition-delay:.08s">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5M4 18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M4 18H2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4h-2"/></svg>
+          </div>
+          <h3>Interer dizayn</h3>
+          <p>Makoningi uchun funksional va chiroyli ichki dizayn — ranglar, materiallar va yoritish rejasi.</p>
+        </article>
+
+        <article class="card soft-pill reveal" style="transition-delay:.16s">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg>
+          </div>
+          <h3>3D vizualizatsiya</h3>
+          <p>Binoning tayyor ko'rinishi — fotorealistik 3D renderlar va virtual sayr imkoniyoti.</p>
+        </article>
+
+        <article class="card soft-pill reveal">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V8l5-3v15M9 20V5l6 3v12M15 20V8l5 3v9"/></svg>
+          </div>
+          <h3>Shaharsozlik</h3>
+          <p>Ma'ishat majmualari, bozorchalar va jamoat makonlari uchun kompleks rejalashtirish.</p>
+        </article>
+
+        <article class="card soft-pill reveal" style="transition-delay:.08s">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12l-8.5 8.5a2.12 2.12 0 0 1-3-3L12 9M17.64 15 22 10.64M20.91 11.7l-1.25-1.25c-.6-.6-.93-1.4-.93-2.25v-.86L16.01 4.6a5.56 5.56 0 0 0-3.94-1.64H9l.92.82A6.18 6.18 0 0 1 12 8.4v1.56l2 2h2.47l2.26 1.91"/></svg>
+          </div>
+          <h3>Renovatsiya</h3>
+          <p>Eski binolarni zamonaviy ko'rinishga keltirish — xavfsizlik va qulaylik kafolati bilan.</p>
+        </article>
+
+        <article class="card soft-pill reveal" style="transition-delay:.16s">
+          <div class="card-ico soft-pill-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Maslahat xizmati</h3>
+          <p>Bujet, materiallar va qurilish jarayoni bo'yicha ishonchli mutaxassis maslahati.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= BIZ HAQIDA ======= -->
+  <section class="section" id="about">
+    <div class="container about-grid">
+      <div class="about-visual reveal">
+        <div class="about-card soft-pill">
+          <img src="images/about.jpg" alt="ARXA Studio ishlari" />
+        </div>
+        <div class="exp-badge soft-pill-dark">
+          <strong>15+</strong>
+          <span>yillik tajriba</span>
+        </div>
+      </div>
+
+      <div class="about-text reveal" style="transition-delay:.12s">
+        <span class="tag soft-pill">Biz haqida</span>
+        <h2>Har bir chiziqda <span class="grad">maqsad</span> bor</h2>
+        <p>
+          ARXA Studio 2010-yildan beri Toshkentda faoliyat yuritadi. 40 dan ortiq
+          mutaxassisimiz — arxitektorlar, inzhenerlar va dizaynerlar — birga
+          ishlaydi. Biz uchun me'morchilik — bu shunchaki bino emas, inson hayotini
+          yaxshilash vositasi.
+        </p>
+        <ul class="check-list">
+          <li>
+            <span class="check-ico soft-pill-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            Individual yondashuv — har bir mijozga alohida loyiha
+          </li>
+          <li>
+            <span class="check-ico soft-pill-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            Energiya tejamkor va ekologik toza materiallar
+          </li>
+          <li>
+            <span class="check-ico soft-pill-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            Muddat va budjetga qat'iy rioya qilish
+          </li>
+          <li>
+            <span class="check-ico soft-pill-ico">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            Qurilishdan keyingi ham 2 yillik kafolat
+          </li>
+        </ul>
+        <div class="hero-btns">
+          <a href="#contact" class="btn btn-primary">Biz bilan ishlash</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= LOYIHALAR ======= -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="tag soft-pill">Portfolyo</span>
+        <h2>Tanlangan <span class="grad">loyihalar</span></h2>
+        <p>So'nggi yillardagi eng muvaffaqiyatli ishlarimiz</p>
+      </div>
+
+      <div class="filters reveal">
+        <button class="filter-btn soft-pill active" data-filter="all">Barchasi</button>
+        <button class="filter-btn soft-pill" data-filter="uylar">Uylar</button>
+        <button class="filter-btn soft-pill" data-filter="binolar">Binolar</button>
+        <button class="filter-btn soft-pill" data-filter="ichki">Ichki dizayn</button>
+        <button class="filter-btn soft-pill" data-filter="jamiyat">Jamoat</button>
+      </div>
+
+      <div class="projects-grid" id="projectsGrid">
+        <article class="project-card soft-pill reveal" data-category="binolar">
+          <div class="project-img">
+            <img src="images/project-1.jpg" alt="Aqua Tower" loading="lazy" />
+            <span class="project-tag soft-pill">Binolar</span>
+          </div>
+          <div class="project-body">
+            <h3>Aqua Tower</h3>
+            <p class="project-meta">Toshkent · 2024 · 32 qavat</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="project-card soft-pill reveal" data-category="uylar" style="transition-delay:.08s">
+          <div class="project-img">
+            <img src="images/project-2.jpg" alt="Oq Uy villasi" loading="lazy" />
+            <span class="project-tag soft-pill">Uylar</span>
+          </div>
+          <div class="project-body">
+            <h3>Oq Uy villasi</h3>
+            <p class="project-meta">Samarqand · 2023 · 640 m²</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="project-card soft-pill reveal" data-category="ichki" style="transition-delay:.16s">
+          <div class="project-img">
+            <img src="images/project-3.jpg" alt="Jadid xonalar interyeri" loading="lazy" />
+            <span class="project-tag soft-pill">Ichki dizayn</span>
+          </div>
+          <div class="project-body">
+            <h3>Jadid xonalar</h3>
+            <p class="project-meta">Toshkent · 2024 · Interer</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="project-card soft-pill reveal" data-category="jamiyat">
+          <div class="project-img">
+            <img src="images/project-4.jpg" alt="Mirak Muzeyi" loading="lazy" />
+            <span class="project-tag soft-pill">Jamoat</span>
+          </div>
+          <div class="project-body">
+            <h3>Mirak Muzeyi</h3>
+            <p class="project-meta">Buxoro · 2025 · 4800 m²</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="project-card soft-pill reveal" data-category="binolar" style="transition-delay:.08s">
+          <div class="project-img">
+            <img src="images/project-5.jpg" alt="Business District" loading="lazy" />
+            <span class="project-tag soft-pill">Binolar</span>
+          </div>
+          <div class="project-body">
+            <h3>Business District</h3>
+            <p class="project-meta">Toshkent · 2025 · A+ sinf</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+
+        <article class="project-card soft-pill reveal" data-category="jamiyat" style="transition-delay:.16s">
+          <div class="project-img">
+            <img src="images/project-6.jpg" alt="Daryo ko'prigi" loading="lazy" />
+            <span class="project-tag soft-pill">Jamoat</span>
+          </div>
+          <div class="project-body">
+            <h3>Daryo ko'prigi</h3>
+            <p class="project-meta">Xiva · 2023 · 210 m</p>
+            <a href="#contact" class="project-link">Batafsil ko'rish <span>→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= STATISTIKA (TO'Q KO'K) ======= -->
+  <section class="section">
+    <div class="container">
+      <div class="stats-panel soft-pill-dark-panel reveal">
+        <div class="stats-grid">
+          <div class="stat-block">
+            <span class="stat-big"><span class="stat-num" data-target="240">0</span>+</span>
+            <span class="stat-name">Tayyor loyihalar</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-big"><span class="stat-num" data-target="15">0</span></span>
+            <span class="stat-name">Yillik tajriba</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-big"><span class="stat-num" data-target="98">0</span>%</span>
+            <span class="stat-name">Qoniqarli mijozlar</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-big"><span class="stat-num" data-target="12">0</span></span>
+            <span class="stat-name">Xalqaro mukofot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FIKRLAR ======= -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="tag soft-pill">Mijozlar fikri</span>
+        <h2>Biz haqida <span class="grad">deydiganlar</span></h2>
+        <p>Ishonch — eng katta muvaffaqiyatimiz</p>
+      </div>
+
+      <div class="reviews-grid">
+        <article class="review-card soft-pill reveal">
+          <div class="stars">★★★★★</div>
+          <p>“ARXA jamoasi uy loyihamizni dastlabki eskizdan boshlab, so'nggi detaligacha muqaddas e'tibor bilan bajarishdi. Natija bizning umidlarimizdan ham chiroyli chiqdi.”</p>
+          <div class="reviewer">
+            <span class="review-ava soft-pill-ico">DK</span>
+            <div><strong>Dilnoza Karimova</strong><small>Uy egasi, Toshkent</small></div>
+          </div>
+        </article>
+
+        <article class="review-card soft-pill reveal" style="transition-delay:.08s">
+          <div class="stars">★★★★★</div>
+          <p>“Aqua Tower loyihasida ularning professionalizmi bizni hayratda qoldirdi. Bajarilish muddatidan olti oy erta, byudjetdan esa 10% tejamkor.”</p>
+          <div class="reviewer">
+            <span class="review-ava soft-pill-ico">JR</span>
+            <div><strong>Jasur Rahimov</strong><small>Investor, Samarkand</small></div>
+          </div>
+        </article>
+
+        <article class="review-card soft-pill reveal" style="transition-delay:.16s">
+          <div class="stars">★★★★★</div>
+          <p>“O'z ofisimiz interyerini yangilash uchun murojaat qildik. 3D vizualizatsiya raqami nihoyatda professional edi — biz tayyor natijani ko'rib, hali qurilishdan oldin o'z ofisimizda kuzattik.”</p>
+          <div class="reviewer">
+            <span class="review-ava soft-pill-ico">NA</span>
+            <div><strong>Nilufar Abdullayeva</strong><small>HR direktor, Buxoro</small></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= ALOQA ======= -->
+  <section class="section" id="contact">
+    <div class="container contact-grid">
+      <div class="contact-info reveal">
+        <span class="tag soft-pill">Aloqa</span>
+        <h2>Birga katta loyihani <span class="grad">yaratamiz</span></h2>
+        <p>Loihangiz haqida biz bilan bo'lishing — 24 soat ichida siz bilan bog'lanamiz va bepul konsultatsiya beramiz.</p>
+
+        <div class="info-list">
+          <div class="info-item soft-pill">
+            <span class="info-ico soft-pill-ico">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div><strong>Telefon</strong><a href="tel:+998901234567">+998 90 123 45 67</a></div>
+          </div>
+          <div class="info-item soft-pill">
+            <span class="info-ico soft-pill-ico">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            </span>
+            <div><strong>Email</strong><a href="mailto:salom@arxa.uz">salom@arxa.uz</a></div>
+          </div>
+          <div class="info-item soft-pill">
+            <span class="info-ico soft-pill-ico">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div><strong>Manzil</strong><a href="#">Toshkent, Amir Temur ko'chasi 42</a></div>
+          </div>
+          <div class="info-item soft-pill">
+            <span class="info-ico soft-pill-ico">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </span>
+            <div><strong>Ish vaqti</strong><a href="#">Du–Sha · 9:00 — 18:00</a></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form soft-pill reveal" id="contactForm" style="transition-delay:.12s" novalidate>
+        <h3>Forma orqali yozing</h3>
+        <div class="form-row">
+          <label class="field soft-field">
+            <span>Ismingiz</span>
+            <input type="text" name="name" placeholder="Masalan: Aziz" required />
+          </label>
+          <label class="field soft-field">
+            <span>Telefon</span>
+            <input type="tel" name="phone" placeholder="+998 __ ___ __ __" required />
+          </label>
+        </div>
+        <label class="field soft-field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="siz@mail.uz" />
+        </label>
+        <label class="field soft-field">
+          <span>Loyiha turi</span>
+          <select name="type">
+            <option>Yangi uy</option>
+            <option>Tijorat binosi</option>
+            <option>Interer dizayn</option>
+            <option>Renovatsiya</option>
+            <option>Boshqa</option>
+          </select>
+        </label>
+        <label class="field soft-field">
+          <span>Xabaringiz</span>
+          <textarea name="message" rows="4" placeholder="Loihangiz haqida qisqacha yozing..." required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">
+          Yuborish
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="logo logo-light">
+          <span class="logo-mark footer-mark">A</span>
+          <span class="logo-text">ARXA<em>Studio</em></span>
+        </a>
+        <p>Zamonaviy arxitektura va interyer dizayni — 2010-yildan beri ishonchli hamyangiz.</p>
+        <div class="socials">
+          <a href="#" class="social soft-pill-dark" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a>
+          <a href="#" class="social soft-pill-dark" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="social soft-pill-dark" aria-label="Telegram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></a>
+          <a href="#" class="social soft-pill-dark" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Sahifalar</h4>
+        <a href="#top">Bosh sahifa</a>
+        <a href="#services">Xizmatlar</a>
+        <a href="#about">Biz haqida</a>
+        <a href="#projects">Loyihalar</a>
+        <a href="#contact">Aloqa</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Xizmatlar</h4>
+        <a href="#services">Arxitektura</a>
+        <a href="#services">Interer dizayn</a>
+        <a href="#services">3D vizualizatsiya</a>
+        <a href="#services">Shaharsozlik</a>
+        <a href="#services">Renovatsiya</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Aloqa</h4>
+        <a href="tel:+998901234567">+998 90 123 45 67</a>
+        <a href="mailto:salom@arxa.uz">salom@arxa.uz</a>
+        <a href="#">Toshkent, Amir Temur ko'chasi 42</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="year">2026</span> ARXA Studio. Barcha huquqlar himoyalangan.</p>
+      <p>Och ko'k &amp; to'q ko'k uslubida tayyorlandi</p>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast soft-pill" id="toast">✅ Xabaringiz yuborildi! Tez orada bog'lanamiz.</div>
+
+  <!-- Back to top -->
+  <button class="to-top soft-pill" id="toTop" aria-label="Yuqoriga">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
