@@ -1,5 +1,6 @@
 /* ============================================================
    ARXA Studio — Soft UI interaktiv funksiyalar
+   Kun (day) / Tun (night) rejimi + portfolio funksiyalari
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,6 +10,134 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".nav-link");
   const toTop = document.getElementById("toTop");
   const toast = document.getElementById("toast");
+  const root = document.documentElement;
+
+  /* Toast — barcha bo'limlar uchun (funksiya e'loni, shuning uchun istalgan joydan chaqiriladi) */
+  let toastTimer;
+  function showToast(msg, ms = 3500) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), ms);
+  }
+
+  /* ==========================================================
+     1. KUN / TUN REJIMI
+     ========================================================== */
+  const THEME_KEY = "arxa-theme";
+  const META_COLORS = { day: "#e9f1fb", night: "#0a1c38" };
+  const LABELS = { day: "Kun", night: "Tun" };
+
+  const themeToggles = ["themeToggle", "themeToggleMobile"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  const themeLabels = ["themeLabel", "themeLabelMobile"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  const themeMeta = document.getElementById("themeColor");
+
+  let themingTimer;
+  let savedByUser = (() => {
+    try {
+      return !!localStorage.getItem(THEME_KEY);
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  const currentTheme = () => (root.getAttribute("data-theme") === "night" ? "night" : "day");
+
+  /* Rasmni kunning/tunning fotosiga almashtirish (silliq fade bilan) */
+  const swapThemedImages = (theme) => {
+    document.querySelectorAll("img[data-night]").forEach((img) => {
+      const next = img.dataset[theme] || img.getAttribute("src");
+      if (!next || img.getAttribute("src").endsWith(next)) return;
+
+      img.classList.add("fade");
+      const reveal = () => {
+        img.classList.remove("fade");
+        img.removeEventListener("load", reveal);
+      };
+      img.addEventListener("load", reveal);
+      setTimeout(reveal, 900); // fallback (keshlangan rasm load hodisasini tashlamasa)
+      img.setAttribute("src", next);
+    });
+  };
+
+  const applyTheme = (theme, persist = false) => {
+    root.classList.add("theming");
+    root.setAttribute("data-theme", theme);
+
+    themeToggles.forEach((btn) => {
+      btn.setAttribute("aria-pressed", theme === "night" ? "true" : "false");
+      btn.setAttribute("aria-label", `Rejim: ${LABELS[theme]}. ${theme === "night" ? "Kun" : "Tun"} rejimiga o'tish`);
+      btn.setAttribute("title", `${LABELS[theme]} rejimi — bosing (${theme === "night" ? "Kun" : "Tun"})`);
+    });
+    themeLabels.forEach((el) => (el.textContent = LABELS[theme]));
+
+    if (themeMeta) themeMeta.setAttribute("content", META_COLORS[theme]);
+
+    swapThemedImages(theme);
+
+    if (persist) {
+      try {
+        localStorage.setItem(THEME_KEY, theme);
+        savedByUser = true;
+      } catch (e) {}
+    }
+
+    clearTimeout(themingTimer);
+    themingTimer = setTimeout(() => root.classList.remove("theming"), 650);
+
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
+  };
+
+  const toggleTheme = () => {
+    const next = currentTheme() === "night" ? "day" : "night";
+    applyTheme(next, true);
+    showToast(next === "night" ? "🌙 Tun rejimi yoqildi" : "☀️ Kun rejimi yoqildi", 1800);
+  };
+
+  themeToggles.forEach((btn) => btn.addEventListener("click", toggleTheme));
+
+  /* Klaviatura yorlig'i: "T" bosilsa rejim almashadi */
+  document.addEventListener("keydown", (e) => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+    if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key.toLowerCase() === "t") toggleTheme();
+  });
+
+  /* Boshqa oynada rejim o'zgarsa — shu oynaga ham o'tadi */
+  window.addEventListener("storage", (e) => {
+    if (e.key === THEME_KEY && (e.newValue === "day" || e.newValue === "night")) {
+      applyTheme(e.newValue);
+    }
+  });
+
+  /* Tanlov saqlanmagan bo'lsa — tizim soziga bo'ysunamiz (matchMedia bo'lmasa ham islaydi) */
+  const darkQuery =
+    typeof window.matchMedia === "function" ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  const onSystemTheme = (e) => {
+    if (!savedByUser) applyTheme(e.matches ? "night" : "day");
+  };
+  if (darkQuery) {
+    if (darkQuery.addEventListener) darkQuery.addEventListener("change", onSystemTheme);
+    else if (darkQuery.addListener) darkQuery.addListener(onSystemTheme);
+  }
+
+  /* Sahifa chizilgach: holatni UI'ga yozamiz va ikkinchi rasmlarni oldindan yuklaymiz */
+  applyTheme(currentTheme());
+
+  const preload = () => {
+    try {
+      document.querySelectorAll("img[data-night]").forEach((img) => {
+        const other = currentTheme() === "night" ? img.dataset.day : img.dataset.night;
+        if (other) new Image().src = other;
+      });
+    } catch (e) {}
+  };
+  if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(preload, { timeout: 2500 });
+  else setTimeout(preload, 1600);
 
   /* ---------- Navbar: scroll'da soyali ko'rinish ---------- */
   const onScroll = () => {
@@ -127,7 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- Aloqa formasi ---------- */
   const form = document.getElementById("contactForm");
-  let toastTimer;
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -144,13 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.reset();
     showToast("✅ Xabaringiz yuborildi! 24 soat ichida bog'lanamiz.");
   });
-
-  const showToast = (msg) => {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
-  };
 
   /* ---------- Yuqoriga qaytish ---------- */
   toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));

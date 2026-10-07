@@ -1,17 +1,35 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" data-theme="day">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ARXA Studio — Arxitektura Portfolyo</title>
-  <meta name="description" content="ARXA Studio — zamonaviy arxitektura, interyer dizayni va 3D vizualizatsiya. Och ko'k va to'q ko'k uslubidagi Soft UI portfolyo." />
+  <meta name="description" content="ARXA Studio — zamonaviy arxitektura, interyer dizayni va 3D vizualizatsiya. Och ko'k va to'q ko'k Soft UI portfolyo: Kun va Tun rejimlari bilan." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta name="theme-color" id="themeColor" content="#e9f1fb" />
+  <!-- Rejimni sahifa chizilguncha o'rnatamiz (oq "miltillash" bo'lmasin) -->
+  <script>
+    (function () {
+      var t = "day";
+      try {
+        var saved = localStorage.getItem("arxa-theme");
+        t = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day");
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23123a78'/%3E%3Cpath d='M30 70 50 32 70 70h-12L50 52 42 70z' fill='%23eaf2fc'/%3E%3C/svg%3E" />
 </head>
 <body>
+  <!-- KUN/TUN osmoni (faqat tun rejimida faol) -->
+  <div class="sky" aria-hidden="true">
+    <div class="sky-stars"></div>
+    <div class="sky-moon"></div>
+    <div class="sky-shoot"></div>
+  </div>
 
   <!-- ======= NAVBAR ======= -->
   <header class="nav-wrap" id="top">
@@ -31,6 +49,18 @@
       </ul>
 
       <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Kun va Tun rejimini almashtirish" title="Kun / Tun">
+          <span class="tt-label" id="themeLabel">Kun</span>
+          <span class="tt-track">
+            <span class="tt-ico tt-sun">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M19.1 4.9l-1.5 1.5M6.4 17.6l-1.5 1.5"/></svg>
+            </span>
+            <span class="tt-ico tt-moon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            </span>
+            <span class="tt-knob"></span>
+          </span>
+        </button>
         <a href="#contact" class="btn btn-primary btn-sm nav-cta">Loyiha bilan bog'lanish</a>
         <button class="burger soft-pill" id="burger" aria-label="Menyu">
           <span></span><span></span><span></span>
@@ -40,6 +70,18 @@
 
     <!-- Mobil menyu -->
     <div class="mobile-menu soft-pill" id="mobileMenu">
+      <button class="theme-toggle theme-toggle--wide" id="themeToggleMobile" type="button" aria-label="Kun va Tun rejimini almashtirish">
+        <span class="tt-label" id="themeLabelMobile">Kun</span>
+        <span class="tt-track">
+          <span class="tt-ico tt-sun">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M19.1 4.9l-1.5 1.5M6.4 17.6l-1.5 1.5"/></svg>
+          </span>
+          <span class="tt-ico tt-moon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </span>
+          <span class="tt-knob"></span>
+        </span>
+      </button>
       <a href="#top" class="mobile-link">Bosh sahifa</a>
       <a href="#services" class="mobile-link">Xizmatlar</a>
       <a href="#about" class="mobile-link">Biz haqida</a>
@@ -95,7 +137,7 @@
 
       <div class="hero-visual reveal" style="transition-delay:.15s">
         <div class="hero-card soft-pill">
-          <img src="images/hero.jpg" alt="Zamonaviy arxitektura — ARXA Studio" />
+          <img src="images/hero.jpg" data-day="images/hero.jpg" data-night="images/hero-night.jpg" alt="Zamonaviy arxitektura — ARXA Studio" />
         </div>
         <div class="float-card soft-pill float-a">
           <span class="float-ico">
@@ -179,7 +221,7 @@
     <div class="container about-grid">
       <div class="about-visual reveal">
         <div class="about-card soft-pill">
-          <img src="images/about.jpg" alt="ARXA Studio ishlari" />
+          <img src="images/about.jpg" data-day="images/about.jpg" data-night="images/about-night.jpg" alt="ARXA Studio ishlari" loading="lazy" />
         </div>
         <div class="exp-badge soft-pill-dark">
           <strong>15+</strong>
@@ -325,7 +367,7 @@
   <!-- ======= STATISTIKA (TO'Q KO'K) ======= -->
   <section class="section">
     <div class="container">
-      <div class="stats-panel soft-pill-dark-panel reveal">
+      <div class="stats-panel reveal">
         <div class="stats-grid">
           <div class="stat-block">
             <span class="stat-big"><span class="stat-num" data-target="240">0</span>+</span>
@@ -506,7 +548,7 @@
     </div>
     <div class="container footer-bottom">
       <p>© <span id="year">2026</span> ARXA Studio. Barcha huquqlar himoyalangan.</p>
-      <p>Och ko'k &amp; to'q ko'k uslubida tayyorlandi</p>
+      <p>Och ko'k &amp; to'q ko'k uslubida · Kun / Tun rejimi: <kbd>T</kbd> tugmasi</p>
     </div>
   </footer>
 
