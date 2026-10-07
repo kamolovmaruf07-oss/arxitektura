@@ -46,6 +46,10 @@ rejim almashinuvi, `data-theme`/`data-mode`, rasm swap (16 ta rasm fayli 200 qay
 `localStorage`, klaviatura (`T`, `A`), forma validatsiyasi, portfolyo filtri, hisoblagichlar
 va **soatni sun'iy o'zgartirib** 6 ta chegara holatini (06:00 / 07:00 / 18:00 / 19:00 / 21:00 / 12:00) tekshiradi.
 
+## Testlar va CI
+
+`.github/workflows/ci.yml` — har PR va `main`ga pushda `npm test` ishga tushadi.
+
 ## GitHub Pagesga chiqarish
 
 `.github/workflows/pages.yml` — `main`ga har pushda avval testlar ishga tushadi, so'ngra sayt
