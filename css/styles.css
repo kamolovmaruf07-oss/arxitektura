@@ -823,6 +823,7 @@ html.preload-theme * { transition: none !important; }
 }
 
 .project-card {
+  cursor: pointer;
   overflow: hidden;
   transition: transform 0.4s var(--ease), box-shadow 0.4s, opacity 0.45s;
 }
@@ -867,6 +868,16 @@ html.preload-theme * { transition: none !important; }
   transition: gap 0.3s var(--ease);
 }
 .project-link:hover { gap: 12px; }
+button.project-link {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+button.project-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
 
 /* ---------- STATISTIKA PANELI (to'q ko'k) ---------- */
 .stats-panel {
@@ -1094,6 +1105,7 @@ html.preload-theme * { transition: none !important; }
 /* ---------- TOAST & TO-TOP ---------- */
 .toast {
   position: fixed;
+  z-index: 400; /* modal ustida ham ko'rinsin */
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) translateY(140%);
@@ -1159,6 +1171,200 @@ kbd {
   border-radius: 999px;
   border: 3px solid var(--bg);
 }
+
+/* ---------- LOYIHA KARTASI TAVSIFI ---------- */
+.project-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- LOYIHA MODALI (LIGHTBOX) ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+.lightbox[hidden] { display: none; }
+
+.lb-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 32, 67, 0.42);
+  backdrop-filter: blur(8px) saturate(1.1);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+}
+[data-theme="night"] .lb-backdrop { background: rgba(2, 8, 20, 0.7); }
+.lightbox.open .lb-backdrop { opacity: 1; }
+
+.lb-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  width: min(980px, 100%);
+  max-height: min(88vh, 840px);
+  overflow: auto;
+  border-radius: 30px;
+  opacity: 0;
+  transform: translateY(26px) scale(0.96);
+  transition: opacity 0.4s var(--ease), transform 0.45s var(--ease);
+  box-shadow: 18px 18px 40px var(--shadow-dark-strong), -18px -18px 40px var(--shadow-light);
+}
+.lightbox.open .lb-panel { opacity: 1; transform: none; }
+
+.lb-media { position: relative; margin: 0; }
+.lb-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+  border-radius: 22px 0 0 22px;
+  transition: opacity 0.35s var(--ease);
+}
+.lb-media img.swap { opacity: 0.25; }
+
+.lb-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-on-panel);
+}
+
+.lb-nav,
+.lb-close {
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--heading);
+  font-family: inherit;
+  transition: transform 0.3s var(--ease), color 0.3s, box-shadow 0.3s;
+}
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+.lb-prev { left: 14px; }
+.lb-next { right: 14px; }
+.lb-nav:hover { transform: translateY(-50%) scale(1.09); color: var(--accent); }
+.lb-nav:active { transform: translateY(-50%) scale(0.94); box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); }
+.lb-nav[disabled] { opacity: 0.4; cursor: not-allowed; transform: translateY(-50%); }
+.lb-nav:focus-visible, .lb-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.lb-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+.lb-close:hover { transform: rotate(90deg); color: var(--accent); }
+
+.lb-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 34px 34px 30px;
+}
+.lb-body h3 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--heading);
+  padding-right: 40px;
+  line-height: 1.2;
+}
+.lb-desc { color: var(--text); font-size: 0.95rem; }
+
+.lb-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lb-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 14px;
+}
+.lb-spec span {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lb-spec strong { font-size: 0.92rem; color: var(--heading); }
+
+.lb-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: auto;
+}
+.lb-count { font-size: 0.82rem; font-weight: 800; letter-spacing: 0.8px; color: var(--muted); }
+
+body.lb-lock { overflow: hidden; }
+
+/* Karta va modal rasmlari orasidagi silliq uzatish */
+.project-card.opened { z-index: 2; }
+
+@media (max-width: 860px) {
+  .lb-panel { grid-template-columns: 1fr; }
+  .lb-media img { height: 240px; min-height: 0; border-radius: 22px 22px 0 0; }
+  .lb-body { padding: 24px 22px 26px; }
+  .lb-body h3 { padding-right: 44px; }
+  .lb-nav { width: 40px; height: 40px; }
+}
+
+@media (max-width: 520px) {
+  .lightbox { padding: 12px; }
+  .lb-specs { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lb-spec { padding: 10px 12px; }
+}
+
+/* ---------- REJIM ALMASHINUVI IKONALARI ---------- */
+/* Ikonalar "morfing" animatsiyasi (rejim almashganda) */
+@keyframes iconPop {
+  0% { transform: scale(1) rotate(0); opacity: 1; }
+  45% { transform: scale(0.55) rotate(-32deg); opacity: 0.5; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes raySpin {
+  0% { transform: scale(0.7) rotate(-50deg); }
+  100% { transform: none; }
+}
+@keyframes panelGlow {
+  0% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  60% { box-shadow: 0 0 0 8px var(--accent-soft); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.theming .tt-ico { animation: iconPop 0.55s var(--ease); }
+.theming .tt-sun svg { animation: raySpin 0.6s var(--ease); }
+.theming .theme-toggle { animation: panelGlow 0.7s var(--ease); }
+.tt-sun svg, .tt-moon svg { transform-origin: center; }
+
 
 /* ============================================================
    RESPONSIVE

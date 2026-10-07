@@ -295,6 +295,166 @@ document.addEventListener("DOMContentLoaded", () => {
     "@keyframes cardIn { from { opacity: 0; transform: translateY(22px) scale(.97); } to { opacity: 1; transform: none; } }";
   document.head.appendChild(style);
 
+  /* ==========================================================
+     LOYIHA MODALI (lightbox)
+     ========================================================== */
+  const lbWrap = document.getElementById("lightbox");
+  const lbPanel = document.getElementById("lbPanel");
+  const lbImg = document.getElementById("lbImg");
+  const lbTitle = document.getElementById("lbTitle");
+  const lbTag = document.getElementById("lbTag");
+  const lbDesc = document.getElementById("lbDesc");
+  const lbPlace = document.getElementById("lbPlace");
+  const lbYear = document.getElementById("lbYear");
+  const lbArea = document.getElementById("lbArea");
+  const lbStatus = document.getElementById("lbStatus");
+  const lbCount = document.getElementById("lbCount");
+  const lbPrev = document.getElementById("lbPrev");
+  const lbNext = document.getElementById("lbNext");
+  const lb = { card: null, lastFocus: null };
+
+  const lbCards = () => [...document.querySelectorAll(".project-card[data-lb]")];
+  const lbVisible = () => lbCards().filter((c) => !c.classList.contains("hidden"));
+
+  const lbFill = (card) => {
+    if (!card) return;
+    lb.card = card;
+
+    const srcImg = card.querySelector("img");
+    const theme = currentTheme();
+    const nextSrc = (srcImg && srcImg.dataset[theme]) || srcImg.getAttribute("src");
+
+    lbImg.classList.add("swap");
+    const settle = () => {
+      lbImg.classList.remove("swap");
+      lbImg.removeEventListener("load", settle);
+    };
+    lbImg.addEventListener("load", settle);
+    lbImg.setAttribute("src", nextSrc);
+    lbImg.alt = srcImg.alt || card.dataset.title;
+    setTimeout(settle, 400);
+
+    lbTitle.textContent = card.dataset.title;
+    lbTag.textContent = card.dataset.tag;
+    const descEl = card.querySelector(".project-desc");
+    lbDesc.textContent = card.dataset.desc || (descEl ? descEl.textContent.trim() : srcImg.alt);
+    lbPlace.textContent = card.dataset.place;
+    lbYear.textContent = card.dataset.year;
+    lbArea.textContent = card.dataset.area;
+    lbStatus.textContent = card.dataset.status;
+
+    const list = lbVisible();
+    const i = list.indexOf(card);
+    lbCount.textContent = (i + 1) + " / " + list.length;
+    const single = list.length < 2;
+    lbPrev.disabled = single;
+    lbNext.disabled = single;
+    lbPrev.setAttribute("aria-label", single ? "Loyiha yo'q" : "Oldingi loyiha");
+    lbNext.setAttribute("aria-label", single ? "Loyiha yo'q" : "Keyingi loyiha");
+
+    lbCards().forEach((c) => c.classList.toggle("opened", c === card));
+  };
+
+  const lbOpen = (card) => {
+    if (!card || !lbWrap) return;
+    lb.lastFocus = document.activeElement;
+    lbWrap.hidden = false;
+    requestAnimationFrame(() => {
+      lbWrap.classList.add("open");
+      document.body.classList.add("lb-lock");
+    });
+    lbFill(card);
+    (lbPanel.querySelector(".lb-close") || lbPanel).focus({ preventScroll: true });
+  };
+
+  const lbClose = () => {
+    if (!lbWrap || lbWrap.hidden) return;
+    lbWrap.classList.remove("open");
+    document.body.classList.remove("lb-lock");
+    lbCards().forEach((c) => c.classList.remove("opened"));
+    const done = () => {
+      lbWrap.hidden = true;
+      lbWrap.removeEventListener("transitionend", done);
+    };
+    lbWrap.addEventListener("transitionend", done);
+    setTimeout(() => {
+      if (!lbWrap.classList.contains("open")) lbWrap.hidden = true;
+    }, 420);
+    if (lb.lastFocus && lb.lastFocus.focus) lb.lastFocus.focus({ preventScroll: true });
+    lb.card = null;
+  };
+
+  const lbStep = (dir) => {
+    const list = lbVisible();
+    if (list.length < 2) return;
+    const i = list.indexOf(lb.card);
+    const next = list[(i + dir + list.length) % list.length];
+    lbFill(next);
+  };
+
+  document.querySelectorAll("[data-lb-open]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      lbOpen(btn.closest(".project-card"));
+    });
+  });
+
+  lbCards().forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      lbOpen(card);
+    });
+  });
+
+  lbWrap.querySelectorAll("[data-lb-close]").forEach((el) => el.addEventListener("click", lbClose));
+  lbPrev.addEventListener("click", () => lbStep(-1));
+  lbNext.addEventListener("click", () => lbStep(1));
+
+  document.getElementById("lbCta").addEventListener("click", lbClose);
+
+  /* Modal ochiq bo'lganda klaviatura boshqaruvi (Esc, ←/→, Tab trap) */
+  document.addEventListener("keydown", (e) => {
+    if (!lbWrap || lbWrap.hidden) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      lbClose();
+      return;
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      lbStep(1);
+      return;
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      lbStep(-1);
+      return;
+    }
+    if (e.key === "Tab") {
+      const f = [...lbPanel.querySelectorAll("button, a[href], [tabindex]:not([tabindex='-1'])")]
+        .filter((el) => !el.disabled && el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  /* Rejim almashsa — modal rasmi ham shu rejimnikiga o'tadi */
+  document.addEventListener("themechange", (e) => {
+    if (!lbWrap.hidden && lb.card) {
+      const img = lb.card.querySelector("img");
+      lbImg.setAttribute("src", img.dataset[e.detail.theme] || img.getAttribute("src"));
+    }
+  });
+
   /* ---------- Aloqa formasi ---------- */
   const form = document.getElementById("contactForm");
 

@@ -140,6 +140,88 @@ async function manualSuite() {
   check("hisoblagich ishlaydi", doc.querySelector(".stat-num[data-target]").textContent !== "0",
     doc.querySelector(".stat-num[data-target]").textContent);
 
+  // ---- LOYIHA MODALI ----
+  const lbWrap = doc.getElementById("lightbox");
+  const card3 = doc.querySelectorAll(".project-card[data-lb]")[2];
+  check("kartalar modal atributlariga ega", doc.querySelectorAll(".project-card[data-lb]").length === 6);
+  check("modal yopiq holatda", lbWrap.hidden === true && !lbWrap.classList.contains("open"));
+
+  card3.querySelector("[data-lb-open]").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(120);
+  check("modal ochildi", lbWrap.hidden === false && lbWrap.classList.contains("open"));
+  check("sarlavha kartadan olindi", doc.getElementById("lbTitle").textContent === card3.dataset.title,
+    doc.getElementById("lbTitle").textContent);
+  check("tavsif modalga ko'chdi", doc.getElementById("lbDesc").textContent.length > 60,
+    doc.getElementById("lbDesc").textContent.length + " belgi");
+  check("spetsifikalar to'ldi", doc.getElementById("lbPlace").textContent === card3.dataset.place &&
+    doc.getElementById("lbYear").textContent === card3.dataset.year &&
+    doc.getElementById("lbArea").textContent === card3.dataset.area);
+  check("modal rasmi karta rasmini oladi",
+    doc.getElementById("lbImg").getAttribute("src").includes("project-3"), doc.getElementById("lbImg").getAttribute("src"));
+  check("hisoblagich 3 / 6", doc.getElementById("lbCount").textContent.trim() === "3 / 6", doc.getElementById("lbCount").textContent);
+  check("scroll qulflangan", doc.body.classList.contains("lb-lock"));
+
+  doc.getElementById("lbNext").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(80);
+  check("→ keyingi loyihaga o'tadi", doc.getElementById("lbTitle").textContent === "Mirak Muzeyi",
+    doc.getElementById("lbTitle").textContent);
+  const lbPrevClick = () => doc.getElementById("lbPrev").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  lbPrevClick();
+  await wait(60);
+  check("← bitta orqaga", doc.getElementById("lbTitle").textContent === "Jadid xonalar", doc.getElementById("lbTitle").textContent);
+  lbPrevClick();
+  lbPrevClick();
+  await wait(60);
+  check("←← ikkita orqaga — birinchi loyiha", doc.getElementById("lbTitle").textContent === "Aqua Tower",
+    doc.getElementById("lbTitle").textContent);
+  lbPrevClick();
+  await wait(60);
+  check("birinchidan ← oxirgisiga aylanadi", doc.getElementById("lbTitle").textContent === "Daryo ko'prigi",
+    doc.getElementById("lbTitle").textContent);
+  check("aylanishda hisoblagich ham yangilanadi", doc.getElementById("lbCount").textContent.trim() === "6 / 6",
+    doc.getElementById("lbCount").textContent);
+
+  // filtr hisobga olinadi: faqat "uylar" ko'ringanda modal 1 ta loyihada qoladi
+  doc.querySelector('[data-filter="uylar"]').dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(80);
+  const card2 = [...doc.querySelectorAll(".project-card[data-lb]")].find((c) => !c.classList.contains("hidden"));
+  card2.querySelector("[data-lb-open]").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(80);
+  check("filtr modal naviga ham ta'sir qiladi", doc.getElementById("lbCount").textContent.trim() === "1 / 1",
+    doc.getElementById("lbCount").textContent);
+  check("bir dona bo'lganda tugmalar o'chirilgan", doc.getElementById("lbPrev").disabled && doc.getElementById("lbNext").disabled);
+  doc.querySelector('[data-filter="all"]').dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(60);
+
+  // rejim almashganda modal rasmi ham almashadi
+  const themeBefore = html.getAttribute("data-theme");
+  click(window, doc.getElementById("themeToggle"));
+  await wait(150);
+  check("modal rasmi rejim bilan almashdi",
+    doc.getElementById("lbImg").getAttribute("src").includes(themeBefore === "night" ? "project-2.jpg" : "project-2-night.jpg"),
+    doc.getElementById("lbImg").getAttribute("src"));
+
+  // Esc bilan yopish
+  doc.dispatchEvent(new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+  await wait(120);
+  check("Esc modalni yopadi", !lbWrap.classList.contains("open") && doc.body.classList.contains("lb-lock") === false);
+  // backdrop bosilganda
+  card3.querySelector("[data-lb-open]").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(80);
+  doc.querySelector(".lb-backdrop").dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(120);
+  check("backdrop bosilganda yopiladi", !lbWrap.classList.contains("open"));
+  // karta tanasini bosish ham ochadi
+  card3.dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+  await wait(80);
+  check("karta tanasini bosish ham modalni ochadi", lbWrap.classList.contains("open"));
+
+  check("→/← tugmalari modal yopiqda ishlatilmaydi", (function () {
+    lbWrap.classList.remove("open"); lbWrap.hidden = true;
+    doc.dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    return lbWrap.hidden === true;
+  })());
+
   check("JS xatoliklari yo'q", errors.length === 0, errors.join(" | "));
   window.close();
 }

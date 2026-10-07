@@ -46,13 +46,28 @@ rejim almashinuvi, `data-theme`/`data-mode`, rasm swap (16 ta rasm fayli 200 qay
 `localStorage`, klaviatura (`T`, `A`), forma validatsiyasi, portfolyo filtri, hisoblagichlar
 va **soatni sun'iy o'zgartirib** 6 ta chegara holatini (06:00 / 07:00 / 18:00 / 19:00 / 21:00 / 12:00) tekshiradi.
 
+## GitHub Pagesga chiqarish
+
+`.github/workflows/pages.yml` — `main`ga har pushda avval testlar ishga tushadi, so'ngra sayt
+Pages'ga chiqariladi (build talab qilinmaydi). Birinchi marta sozlanadi:
+
+```bash
+gh api -X POST repos/:owner/:repo/pages -f build_type=workflow \
+  -f "source[branch]=main" -f "source[path]=/"
+```
+
+Manzil: `https://<github-foydalanuvchi>.github.io/arxitektura/`
+
+Agar Pages yoqilmasa: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
 ## Tuzilma
 
 ```
 ├── index.html              # Sahifa + rejimni oldindan o'rnatuvchi inline skript
 ├── css/styles.css          # Soft UI dizayn tizimi (kun/tun tokenlari)
 ├── js/main.js              # Rejim (kun/tun/avto), filtr, hisoblagich, forma
-├── tests/theme.test.js     # jsdom asosidagi testlar
+├── tests/theme.test.js     # jsdom asosidagi 68 ta tekshiruv
+├── .github/workflows/      # Pages'ga avtomatik chiqarish
 └── images/                 # AI rasmlari: 8 juft (kunduz/kech) + about/hero
     ├── hero.jpg            hero-night.jpg
     ├── about.jpg           about-night.jpg
