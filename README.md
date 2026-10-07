@@ -1,60 +1,67 @@
 # ARXA Studio — Arxitektura Portfolyo
 
-**Soft UI (Neo-UI)** uslubidagi zamonaviy arxitektura portfolyo sayti — **Kun** va **Tun** rejimlari bilan.
+**Soft UI (Neo-UI)** uslubidagi arxitektura portfolyo sayti — **Kun**, **Tun** va **Avto** rejimlari bilan.
 
 ## Asosiy xususiyatlar
 
-- 🎨 **Ranglar:** och ko'k (`#e9f1fb`) va to'q ko'k (`#123a78`) — CSS custom properties orqali boshqariladi
-- 🌗 **Kun / Tun rejimi:** navbar'dagi soft-perklyuchatel, `localStorage`da saqlanadi, tizim (`prefers-color-scheme`) soziga moslashadi, klaviaturada **`T`** tugmasi
--  **Arxitektura rasmlari:** barchasi AI yordamida yaratilgan; hero va "biz haqida" bloklari uchun **alohida kechki fotolar** ham yasalgan (rejim almashganda rasm silliq almasinadi)
-- ✨ Soft shadows, inset "uyuq" maydonlar, yumaloq burchaklar, yumshoq animatsiyalar
-- 📱 To'liq responsiv + WCAG AA kontrast (ikkala rejimda ham tekshirilgan)
+- 🎨 **Ranglar:** och ko'k (`#e9f1fb`) va to'q ko'k (`#123a78`) — hammasi CSS custom properties (token) orqali
+- 🌗 **Kun / Tun:** navbar va mobil menyudagi soft-perklyuchatel, tanlov `localStorage`da saqlanadi
+- ⏱ **Avto-rejim:** soat bo'yicha — 07:00–19:00 kun, tunda tun; sahicha ochilganda ham to'g'ri rejim tanlanadi (FOUC yo'q). 30 soniyada bir tekshiriladi, kechga o'tganda o'zi almashinadi
+- 🏛 **20 ta AI rasmi:** 8 ta loyiha uchun alohida **kunduzgi va kechki** variant — rejim almashganda rasm silliq fade bilan almashtiriladi
+- ✨ Soft shadows, inset maydonlar, kechki osmon (yulduzlar, oy, yulduz uchishi), yumshoq animatsiyalar
+- ♿ Ikkala rejimda ham kontrast WCAG AA tekshiruvidan o'tgan; `prefers-reduced-motion` hurmat qilinadi
+- 📱 To'liq responsiv (mobil / planshet / desktop)
 
 ## Sahifa bo'limlari
 
-1. **Hero** — shior, statistika, suzuvchi kartalar va kechki osmon effekti
+1. **Hero** — shior, statistika, suzuvchi kartalar
 2. **Xizmatlar** — 6 ta xizmat kartasi
-3. **Biz haqida** — studio, ustunliklar ro'yxati, tajriba badge'i
+3. **Biz haqida** — studio va ustunliklar
 4. **Loyihalar** — filtrli portfolyo (Uylar / Binolar / Ichki dizayn / Jamoat)
 5. **Statistika** — animatsion hisoblagichlar (to'q ko'k panel)
 6. **Mijozlar fikri** — 3 ta sharh
-7. **Aloqa** — soft-forma + kontakt ma'lumotlari
+7. **Aloqa** — soft-forma + kontaktlar
 
-## Kun / Tun qanday ishlaydi
+## Rejimlarni boshqarish
 
-| Qism | Kun (day) | Tun (night) |
-| --- | --- | --- |
-| Fon | och ko'k gradient | chuqur to'q ko'k + oy nuri |
-| Panelar | `#f4f9ff → #e7f0fb`, oq yorug' soyalar | `#17325c → #0b1e3c`, pastel ko'k yorug'lik |
-| Matn | `#0d2c5e` / `#4f6890` | `#eaf2ff` / `#8aa6cc` |
-| Rasmlar | kunduzgi fotosurat | kechki fotosurat (hero, about) + sovuq filtr (loyihalar) |
-| Qo'shimcha | — | yulduzlar, oy, "yulduz uchishi" animatsiyasi |
+| Amal | Qanday |
+| --- | --- |
+| Kun ↔ Tun | navbar/menyu perklyuchateli yoki **`T`** tugmasi |
+| Avto on/off | **Avto** chipi yoki **`A`** tugmasi |
+| Saqlash | `localStorage["arxa-theme"]` = `"day" \| "night" \| "auto"` |
+| Birinchi tashrif | `auto` — soatga qarab tanlanadi |
+| Boshqa oyna | `storage` hodisasi orqali sinxronlanadi |
 
-Mantiq `js/main.js` ichida: `applyTheme()` → `data-theme` atributi, `theme-color` meta, sarlavha matni va rasmlar almashtiriladi; o'tish 650 ms davomida `.theming` klassi orqali silliq bo'ladi.
+Avto holatida perklyuchatelni bossangiz — sayt avtomatikdan chiqib, tanlovingizni qo'lda saqlaydi.
 
-## Ishga tushirish
+## Ishga tushirish va test
 
 ```bash
-python3 -m http.server 8000
-# yoki
-npx serve .
+npm run dev      # python3 -m http.server 8000 → http://localhost:8000
+npm test         # node tests/theme.test.js (jsdom bilan 47 ta tekshiruv)
 ```
 
-Brauzerda `http://localhost:8000` oching.
+`npm test` o'zi kichik statik server ochadi, sahifani jsdom'da yuklaydi va:
+rejim almashinuvi, `data-theme`/`data-mode`, rasm swap (16 ta rasm fayli 200 qaytishi),
+`localStorage`, klaviatura (`T`, `A`), forma validatsiyasi, portfolyo filtri, hisoblagichlar
+va **soatni sun'iy o'zgartirib** 6 ta chegara holatini (06:00 / 07:00 / 18:00 / 19:00 / 21:00 / 12:00) tekshiradi.
 
 ## Tuzilma
 
 ```
-├── index.html              # Asosiy sahifa + rejimni oldindan o'rnatuvchi inline skript
+├── index.html              # Sahifa + rejimni oldindan o'rnatuvchi inline skript
 ├── css/styles.css          # Soft UI dizayn tizimi (kun/tun tokenlari)
-├── js/main.js              # Rejim, filtr, hisoblagich, forma mantiqi
-└── images/
-    ├── hero.jpg            hero-night.jpg       # bino — kunduz / tun
-    ├── about.jpg           about-night.jpg      # maket ustaxonasi — kunduz / tun
-    └── project-1..6.jpg                         # portfolio loyihalari
+├── js/main.js              # Rejim (kun/tun/avto), filtr, hisoblagich, forma
+├── tests/theme.test.js     # jsdom asosidagi testlar
+└── images/                 # AI rasmlari: 8 juft (kunduz/kech) + about/hero
+    ├── hero.jpg            hero-night.jpg
+    ├── about.jpg           about-night.jpg
+    └── project-1..6.jpg    project-1..6-night.jpg
 ```
 
-## Texnologiyalar
+## Texnik detallar
 
-- Toza HTML5 + CSS3 (Custom Properties) + Vanilla JavaScript — frameworklar ishlatilmagan
-- `IntersectionObserver` (reveal + hisoblagichlar), `matchMedia`, `localStorage`, `requestIdleCallback` (kechki rasmlarni oldindan yuklash)
+- Framework yo'q: toza HTML + CSS + Vanilla JS
+- `IntersectionObserver` (reveal + hisoblagichlar), `localStorage`, `requestIdleCallback` (ikkinchi rasmlarni oldindan yuklash)
+- Rejim almashinuvi `.theming` klassi orqali 650 ms silliq transisiya bilan; ochilishda `html.preload-theme` transisiyalari o'chiriladi
+- `theme-color` meta har bir rejimda yangilanadi (mobil brauzer paneli ham moslashadi)

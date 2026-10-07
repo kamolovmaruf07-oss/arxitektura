@@ -22,13 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     1. KUN / TUN REJIMI
+     1. KUN / TUN / AVTO REJIMI
      ========================================================== */
   const THEME_KEY = "arxa-theme";
+  const MODES = ["day", "night", "auto"];
   const META_COLORS = { day: "#e9f1fb", night: "#0a1c38" };
   const LABELS = { day: "Kun", night: "Tun" };
+  const NIGHT_FROM = 19; // 19:00 dan — tun
+  const NIGHT_UNTIL = 7; // 07:00 gacha — tun
 
   const themeToggles = ["themeToggle", "themeToggleMobile"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  const themeAutoBtns = ["themeAuto", "themeAutoMobile"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
   const themeLabels = ["themeLabel", "themeLabelMobile"]
@@ -37,14 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeMeta = document.getElementById("themeColor");
 
   let themingTimer;
-  let savedByUser = (() => {
-    try {
-      return !!localStorage.getItem(THEME_KEY);
-    } catch (e) {
-      return false;
-    }
-  })();
 
+  const readMode = () => {
+    try {
+      const v = localStorage.getItem(THEME_KEY);
+      return MODES.indexOf(v) > -1 ? v : "auto";
+    } catch (e) {
+      return "auto";
+    }
+  };
+
+  let mode = readMode();
+
+  const autoTheme = () => {
+    const h = new Date().getHours();
+    return h >= NIGHT_FROM || h < NIGHT_UNTIL ? "night" : "day";
+  };
+  const resolve = (m) => (m === "auto" ? autoTheme() : m);
   const currentTheme = () => (root.getAttribute("data-theme") === "night" ? "night" : "day");
 
   /* Rasmni kunning/tunning fotosiga almashtirish (silliq fade bilan) */
@@ -64,69 +79,95 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  const applyTheme = (theme, persist = false) => {
+  const applyMode = (nextMode, opts = {}) => {
+    mode = MODES.indexOf(nextMode) > -1 ? nextMode : "auto";
+    const theme = resolve(mode);
+
     root.classList.add("theming");
     root.setAttribute("data-theme", theme);
+    root.setAttribute("data-mode", mode);
 
     themeToggles.forEach((btn) => {
       btn.setAttribute("aria-pressed", theme === "night" ? "true" : "false");
-      btn.setAttribute("aria-label", `Rejim: ${LABELS[theme]}. ${theme === "night" ? "Kun" : "Tun"} rejimiga o'tish`);
-      btn.setAttribute("title", `${LABELS[theme]} rejimi — bosing (${theme === "night" ? "Kun" : "Tun"})`);
+      btn.setAttribute(
+        "aria-label",
+        `Rejim: ${LABELS[theme]} (${mode === "auto" ? "avto" : "qo'lda"}). ` +
+          `${theme === "night" ? "Kun" : "Tun"} rejimiga o'tish`
+      );
+      btn.setAttribute("title", `${LABELS[theme]} · ${mode === "auto" ? "Avto" : "Qo'lda"} — bosing (T)`);
     });
     themeLabels.forEach((el) => (el.textContent = LABELS[theme]));
+    themeAutoBtns.forEach((btn) => {
+      btn.setAttribute("aria-pressed", mode === "auto" ? "true" : "false");
+      btn.classList.toggle("on", mode === "auto");
+      btn.setAttribute("title",
+        mode === "auto"
+          ? `Avto yoqilgan: ${LABELS[theme]} (soat ${theme === "night" ? "kechki" : "kunduzgi"})`
+          : "Avto-rejimni yoqish — soat bo'yicha kun/tun (A)"
+      );
+    });
 
     if (themeMeta) themeMeta.setAttribute("content", META_COLORS[theme]);
 
     swapThemedImages(theme);
 
-    if (persist) {
+    if (opts.persist !== false) {
       try {
-        localStorage.setItem(THEME_KEY, theme);
-        savedByUser = true;
+        localStorage.setItem(THEME_KEY, mode);
       } catch (e) {}
     }
 
     clearTimeout(themingTimer);
     themingTimer = setTimeout(() => root.classList.remove("theming"), 650);
 
-    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme, mode } }));
   };
 
-  const toggleTheme = () => {
+  /* Perklyuchatel: avto holatidan chiqib, qo'lda qarama-qarshi rejimga o'tadi */
+  const toggleTheme = (announce = true) => {
     const next = currentTheme() === "night" ? "day" : "night";
-    applyTheme(next, true);
-    showToast(next === "night" ? "🌙 Tun rejimi yoqildi" : "☀️ Kun rejimi yoqildi", 1800);
+    applyMode(next);
+    if (announce) showToast(next === "night" ? "🌙 Tun rejimi yoqildi" : "☀️ Kun rejimi yoqildi", 1800);
   };
 
-  themeToggles.forEach((btn) => btn.addEventListener("click", toggleTheme));
+  /* Avto tugmasi: yoqish/o'chirish */
+  const toggleAuto = (announce = true) => {
+    if (mode === "auto") {
+      applyMode(currentTheme());
+      if (announce) showToast("⏱ Avto o'chirildi — rejim qo'lda saqlanadi", 1800);
+    } else {
+      applyMode("auto");
+      if (announce) showToast(`⏱ Avto yoqildi — ${LABELS[resolve("auto")]} rejimi`, 1800);
+    }
+  };
 
-  /* Klaviatura yorlig'i: "T" bosilsa rejim almashadi */
+  themeToggles.forEach((btn) => btn.addEventListener("click", () => toggleTheme()));
+  themeAutoBtns.forEach((btn) => btn.addEventListener("click", () => toggleAuto()));
+
+  /* Klaviatura: T — kun/tun, A — avto */
   document.addEventListener("keydown", (e) => {
-    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
-    if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.key.toLowerCase() === "t") toggleTheme();
+    const tag = (document.activeElement && document.activeElement.tagName) || "";
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    if (k === "t") toggleTheme();
+    else if (k === "a") toggleAuto();
   });
 
   /* Boshqa oynada rejim o'zgarsa — shu oynaga ham o'tadi */
   window.addEventListener("storage", (e) => {
-    if (e.key === THEME_KEY && (e.newValue === "day" || e.newValue === "night")) {
-      applyTheme(e.newValue);
-    }
+    if (e.key === THEME_KEY && MODES.indexOf(e.newValue) > -1) applyMode(e.newValue, { persist: false });
   });
 
-  /* Tanlov saqlanmagan bo'lsa — tizim soziga bo'ysunamiz (matchMedia bo'lmasa ham islaydi) */
-  const darkQuery =
-    typeof window.matchMedia === "function" ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-  const onSystemTheme = (e) => {
-    if (!savedByUser) applyTheme(e.matches ? "night" : "day");
-  };
-  if (darkQuery) {
-    if (darkQuery.addEventListener) darkQuery.addEventListener("change", onSystemTheme);
-    else if (darkQuery.addListener) darkQuery.addListener(onSystemTheme);
-  }
+  /* Avto holatida soat yurganda o'zi almashinadi (30 soniyada tekshiriladi) */
+  setInterval(() => {
+    if (mode === "auto" && resolve("auto") !== currentTheme()) {
+      applyMode("auto");
+      showToast(autoTheme() === "night" ? "🌙 Kech bo'ldi — tun rejimi" : "☀️ Tong otildi — kun rejimi", 2600);
+    }
+  }, 30000);
 
-  /* Sahifa chizilgach: holatni UI'ga yozamiz va ikkinchi rasmlarni oldindan yuklaymiz */
-  applyTheme(currentTheme());
+  /* Sahifa chizilgach holatni UI'ga yozamiz va ikkinchi rasmlarni yuklaymiz */
+  applyMode(mode, { persist: false });
 
   const preload = () => {
     try {

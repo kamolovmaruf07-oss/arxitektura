@@ -243,6 +243,15 @@ ul { list-style: none; }
     filter 0.6s var(--ease), opacity 0.5s var(--ease) !important;
 }
 
+/* ---------- REJIM ALMASHUVIDA RASM SILLIQLIGI ---------- */
+img[data-night] {
+  transition: transform 0.7s var(--ease), opacity 0.5s var(--ease), filter 0.6s var(--ease);
+}
+img[data-night].fade { opacity: 0; }
+
+/* Sahifa ochilishida transisiyalarni o'chirish (boshlang'ich "silib ketish" bo'lmasin) */
+html.preload-theme * { transition: none !important; }
+
 /* ---------- TUGMALAR ---------- */
 .btn {
   display: inline-flex;
@@ -280,6 +289,36 @@ ul { list-style: none; }
 }
 .btn-soft:hover { transform: translateY(-3px); }
 .btn-soft:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); }
+
+/* ---------- AUTO (SOAT) TUGMASI ---------- */
+.auto-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  background: linear-gradient(145deg, var(--panel-hi), var(--panel-lo));
+  box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
+  transition: transform 0.3s var(--ease), color 0.3s, box-shadow 0.3s var(--ease), background 0.4s;
+}
+.auto-chip:hover { transform: translateY(-2px); color: var(--heading); }
+.auto-chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.auto-chip.on {
+  background: var(--grad-btn);
+  color: #fff;
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.28), -4px -4px 10px var(--shadow-light);
+}
+.auto-chip.on svg { animation: spin 9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.auto-chip--wide { width: 100%; justify-content: center; margin-bottom: 6px; text-transform: none; letter-spacing: 0.2px; }
 
 /* ============================================================
    KUN / TUN PERKLYUCHATELI
@@ -800,7 +839,7 @@ ul { list-style: none; }
   object-fit: cover;
   transition: transform 0.7s var(--ease), filter 0.6s var(--ease);
 }
-[data-theme="night"] .project-img img { filter: var(--img-filter); }
+[data-theme="night"] .project-img img:not([data-night]) { filter: var(--img-filter); }
 .project-card:hover .project-img img { transform: scale(1.07); }
 
 .project-tag {
@@ -1137,6 +1176,11 @@ kbd {
   .stat-block + .stat-block { box-shadow: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .sky-moon { width: 90px; height: 90px; top: 3vh; right: 4vw; }
+}
+
+@media (max-width: 1024px) {
+  .nav .auto-chip span { display: none; }
+  .nav .auto-chip { padding: 10px; }
 }
 
 @media (max-width: 900px) {

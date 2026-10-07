@@ -1,0 +1,13 @@
+{
+  "name": "arxa-studio",
+  "version": "1.1.0",
+  "private": true,
+  "description": "ARXA Studio — Soft UI arxitektura portfolyo (Kun/Tun/Avto rejimlari)",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "test": "node tests/theme.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
